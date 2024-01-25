@@ -65,9 +65,10 @@ app.get('/urls', async(req,res,next) => {
 })
 
 app.get('/:id', async(req,res,next) => {
+  const {id: slug} = req.params
   try {
-    const url = await urls.findOne(req.params.id);
-    res.redirect(url.body.url);
+    const url = await urls.findOne({slug});
+    res.redirect(url.url);
   } catch (error) {
     next(error);
   }
