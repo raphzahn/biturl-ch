@@ -75,6 +75,17 @@ app.get('/:id', async(req,res,next) => {
   
 })
 
+app.delete('/:id', async(req,res,next) => {
+  const {id: slug} = req.params
+  try {
+    const del = await urls.remove({slug:slug});
+    res.json({message:"Delete successful"});
+  } catch (error) {
+    next(error);
+  }
+  
+})
+
 app.use((error, req, res, next) => {
   if (error.status) {
     res.status(error.status);
