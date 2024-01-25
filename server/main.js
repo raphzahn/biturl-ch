@@ -54,6 +54,16 @@ app.post('/url', async(req, res, next) => {
   }
 })
 
+app.get('/urls', async(req,res,next) => {
+  try {
+    const allUrls = await urls.find();
+    res.json(allUrls);
+  } catch (error) {
+    next(error);
+  }
+  
+})
+
 app.use((error, req, res, next) => {
   if (error.status) {
     res.status(error.status);
