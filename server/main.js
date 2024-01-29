@@ -26,7 +26,7 @@ app.use(express.json());
 
 app.use(express.static('client'))
 
-
+// Create URL
 app.post('/url', async(req, res, next) => {
   let {slug, url} = req.body;
   try {
@@ -54,6 +54,7 @@ app.post('/url', async(req, res, next) => {
   }
 })
 
+// Get all URLs
 app.get('/urls', async(req,res,next) => {
   try {
     const allUrls = await urls.find();
@@ -64,6 +65,19 @@ app.get('/urls', async(req,res,next) => {
   
 })
 
+// Get one URL
+app.get('/url/:id', async(req,res,next) => {
+  const {id: slug} = req.params
+  try {
+    const url = await urls.findOne({slug});
+    res.json(url);
+  } catch (error) {
+    next(error);
+  }
+  
+})
+
+// Redirect to URL
 app.get('/:id', async(req,res,next) => {
   const {id: slug} = req.params
   try {
@@ -75,6 +89,7 @@ app.get('/:id', async(req,res,next) => {
   
 })
 
+// Delete URL
 app.delete('/:id', async(req,res,next) => {
   const {id: slug} = req.params
   try {
