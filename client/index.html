@@ -7,10 +7,22 @@
     <link rel="stylesheet" href="css/style.css">
     <title>BitUrl.ch the URL Shortener</title>
 </head>
-<body class="w-full">
-    <h1 class="text-3xl font-bold text-center my-5">
-        BitUrl.ch the URL Shortener
-    </h1>
+<body class="w-full flex justify-around flex-col">
+    <div class="header">
+        <h1 class="text-3xl font-bold text-center my-5">
+            BitUrl.ch the URL Shortener
+        </h1>
+    </div>
+    <div class="w-1/2 m-auto">
+        <form hx-post="/url" hx-trigger="submit" hx-swap="none" hx-on::after-request="this.reset()">
+            <div class="my-2">
+                <input type="text" name="url" id="url" class="p-2 border-black border-2 w-full rounded my-1" placeholder="URL">
+                <input type="text" name="slug" id="slug" class="p-2 border-black border-2 w-full rounded my-1" placeholder="Slug">
+            </div>
+            <button type="submit" class="p-2 bg-gray-800 text-white rounded hover:bg-gray-950 w-full">Absenden</button>
+        </form>
+    </div>
+
     <script src="js/htmx.min.js"></script>
 </body>
 </html>

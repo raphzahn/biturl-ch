@@ -4,11 +4,15 @@ const helmet = require('helmet')
 const morgan = require('morgan')
 const yup = require('yup')
 const monk = require('monk')
+const bodyParser = require('body-parser');
 const { nanoid } = require('nanoid')
 
 require('dotenv').config();
 
 const db = monk(process.env.MONGODB_URI);
+if(!db){
+  console.log('no connection')
+}
 const urls = db.get('urls');
 urls.createIndex({ slug: 1 }, { unique: true });
 
@@ -22,13 +26,16 @@ const schema = yup.object().shape({
 app.use(helmet());
 app.use(cors());
 app.use(morgan('tiny'));
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.json());
+
 
 app.use(express.static('client'))
 
 // Create URL
 app.post('/url', async(req, res, next) => {
   let {slug, url} = req.body;
+  console.log(req.body)
   try {
     await schema.validate({
       slug,
